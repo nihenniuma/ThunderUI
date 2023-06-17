@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/download12/tips.svg</file>
+        <file>icons/download12/save.svg</file>
+        <file>icons/download12/refresh.svg</file>
+        <file>icons/download12/magic-wand.svg</file>
+        <file>icons/download12/lightning.svg</file>
+        <file>icons/download12/folder-open.svg</file>
+        <file>icons/download12/clear.svg</file>
+        <file>icons/download12/clear-format.svg</file>
+    </qresource>
+</RCC>
