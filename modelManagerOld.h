@@ -14,11 +14,11 @@
 class modelInfo;
 
 // 这里必须继承QObject不然无法使用信号槽
-class modelManager : public QObject{
+class ModelManager : public QObject{
     Q_OBJECT
 public:
-    modelManager();
-    ~modelManager();
+    ModelManager();
+    ~ModelManager();
 
     int praseConfFile(QString sConfPath);
     int initModel(QString sModelPath);
@@ -47,7 +47,7 @@ public:
     int isModelExist(QString sModelName);
     QMap<QString, modelInfo> mModelInfoMap;
 signals:
-    void logOutputSig(QString);
+    // void logOutputSig(QString);
     void setTreeNodeSig();
     void addNodeSig(QString, QTreeWidgetItem*);
 

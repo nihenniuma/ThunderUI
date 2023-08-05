@@ -65,6 +65,16 @@
         "qtreewidget": "cpp",
         "qobject": "cpp",
         "qtquickwidgets": "cpp",
-        "qtoolbar": "cpp"
-    }
+        "qtoolbar": "cpp",
+        "qtreewidgetitem": "cpp",
+        "qvboxlayout": "cpp",
+        "qtextbrowser": "cpp",
+        "qmenubar": "cpp",
+        "qprogressbar": "cpp",
+        "qstring": "cpp",
+        "qlabel": "cpp",
+        "iomanip": "cpp",
+        "qtextstream": "cpp"
+    },
+    "editor.tabSize": 2
 }

@@ -8,5 +8,15 @@
         <file>icons/download12/folder-open.svg</file>
         <file>icons/download12/clear.svg</file>
         <file>icons/download12/clear-format.svg</file>
+        <file>icons/download12/checkbox.svg</file>
+        <file>icons/download12/brightness.svg</file>
+        <file>icons/download12/auto-focus.svg</file>
+        <file>icons/download12/file-removal-one.svg</file>
+        <file>icons/download12/file-addition-one.svg</file>
+        <file>icons/download12/zoom-out.svg</file>
+        <file>icons/download12/zoom-in.svg</file>
+        <file>icons/download12/setting-two.svg</file>
+        <file>icons/download12/camera.svg</file>
+        <file>icons/download12/aiming.svg</file>
     </qresource>
 </RCC>

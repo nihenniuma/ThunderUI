@@ -1,8 +1,7 @@
 #ifndef LOG_SYS_H
 #define LOG_SYS_H
 
-#include "modelManager.h"
-#include "treeWidgetManager.h"
+#include "TreeWidget/treeWidgetManager.h"
 
 #include <QString>
 #include <QObject>
@@ -18,14 +17,14 @@ public:
     LogSys();
     ~LogSys();
 
+    int initLogSys(QTextBrowser* logTextOutput);
+
     static QString sDefaultLogPath;
     QString sDirPath;
-    QTextBrowser* pLogTextOutput;
+    QTextBrowser* m_pLogTextOutput;
 
     // 拿这两个指针是为了bind LogSys的日志打印接口和这两个指针里的信息输出的接口弄成信号槽
-    modelManager* pModelManager;
-    treeWidgetManager* pTreeWidgetManager;
-    int initLogSys(QTextBrowser* logTextOutput);
+    TreeWidgetManager* m_pTreeWidgetMgr;
 
 public slots:
     int saveLog(QString path);

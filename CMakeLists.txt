@@ -11,58 +11,57 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Xml Widgets OpenGL REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Xml Widgets OpenGL REQUIRED)
+SET(CMAKE_BUILD_TYPE "Debug")
 
-set(PROJECT_SOURCES
-        main.cpp
-        mainWin.cpp
-        mainWin.h
-        modelManager.h
-        modelManager.cpp
-#        modelViewer.h
-#        modelViewer.cpp
-        interface.cpp
-        interface.h
-        logSys.h
-        logSys.cpp
-        treeWidgetManager.cpp
-        treeWidgetManager.h
-        mainwindow.ui
-        icons.qrc
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Xml Widgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Xml Widgets REQUIRED)
+
+# VTK
+find_package(VTK REQUIRED)
+vtk_module_config(VTK
+  vtkFiltersGeometry
+  vtkFiltersModeling
+  vtkCommonCore
+  vtkFiltersSources
+  vtkInteractionStyle
+  vtkRenderingOpenGL2
+  vtkIOGeometry
+  vtkGUISupportQt
+  vtkRenderingCore
+  vtkInteractionWidgets
+)
+include(${VTK_USE_FILE})
+
+include_directories(
+        LogSys
+        TreeWidget
+        MainWindow
+        ModelViewerControl
+        Model
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Thunder
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Thunder APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(Thunder SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(Thunder
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+set(PROJECT_SOURCES
+        MainWindow/main.cpp
+        MainWindow/mainwindow.cpp
+        MainWindow/mainwindow.ui
+        ModelViewerControl/bridge.cpp
+        ModelViewerControl/viewerControl.cpp
+        ModelViewerControl/viewInteractStyle.cpp
+        LogSys/logSys.cpp
+        TreeWidget/treeWidgetManager.cpp
+        Model/model.cpp
+        Model/modelManager.cpp
+        icons.qrc
+)
+include_directories("~/Qt5.12.12/5.12.12/gcc_64/")
 
-target_link_libraries(Thunder PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Xml Qt${QT_VERSION_MAJOR}::OpenGL)
+add_executable(Thunder
+        ${PROJECT_SOURCES})
+
+target_link_libraries(Thunder PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Xml ${VTK_LIBRARIES})
 
 set_target_properties(Thunder PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Thunder)
-endif()

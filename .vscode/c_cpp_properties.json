@@ -7,7 +7,9 @@
                 "/home/mzy/Qt5.12.12/5.12.12/gcc_64/**",
                 "/home/mzy/Qt5.12.12/5.12.12/gcc_64/include",
                 "/home/mzy/Qt5.12.12/5.12.12/gcc_64/include/QtCore",
-                "/home/mzy/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets"
+                "/home/mzy/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets",
+                "/usr/local/include/vtk-8.2",
+                "${workspaceFolder}"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

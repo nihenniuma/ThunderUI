@@ -1,16 +1,16 @@
-#include "modelManager.h"
+#include "modelManagerOld.h"
 
-modelManager::modelManager()
+ModelManager::ModelManager()
 {
     // 没啥要初始化的，直接默认
 }
 
-modelManager::~modelManager()
+ModelManager::~ModelManager()
 {
     // 没存指针之类的东西直接默认析构
 }
 
-int modelManager::initModel(QString sModelPath)
+int ModelManager::initModel(QString sModelPath)
 {
     int nret;
     QFileInfo modelFileInfo(sModelPath);
@@ -53,7 +53,7 @@ int modelManager::initModel(QString sModelPath)
 }
 
 // 查看该模型名称在Map中是否已存在，如果已存在同样的名字会覆盖原来的数据
-int modelManager::checkRedundancy(QString sModelName)
+int ModelManager::checkRedundancy(QString sModelName)
 {
     // 存在冗余情况
     if(mModelInfoMap.find(sModelName) != mModelInfoMap.end()){
@@ -62,7 +62,7 @@ int modelManager::checkRedundancy(QString sModelName)
     return 0;
 }
 
-int modelManager::setModelName(modelInfo &model, QString sNewName)
+int ModelManager::setModelName(modelInfo &model, QString sNewName)
 {
     int ret = model.setModelName(sNewName);
     if(ret == -1){
@@ -71,7 +71,7 @@ int modelManager::setModelName(modelInfo &model, QString sNewName)
     return ret;
 }
 
-int modelManager::setModelName(QString sModelName, QString sNewName)
+int ModelManager::setModelName(QString sModelName, QString sNewName)
 {
     if(mModelInfoMap.find(sModelName) == mModelInfoMap.end()){
         return -1;
@@ -79,17 +79,17 @@ int modelManager::setModelName(QString sModelName, QString sNewName)
     return setModelName(mModelInfoMap[sModelName], sNewName);
 }
 
-// int modelManager::setSubModelName(QString sModelName)
+// int ModelManager::setSubModelName(QString sModelName)
 // {
 //     return 0;
 // }
 
-// int modelManager::rotateSubModel(QString sSubModelName, Eigen::Matrix3d rotation)
+// int ModelManager::rotateSubModel(QString sSubModelName, Eigen::Matrix3d rotation)
 // {
 //     return 0;
 // }
 
-int modelManager::rotateModelVertex(QString sModelName, Eigen::Matrix3d rotation)
+int ModelManager::rotateModelVertex(QString sModelName, Eigen::Matrix3d rotation)
 {
     if(mModelInfoMap.find(sModelName) == mModelInfoMap.end()){
         return -1;
@@ -99,7 +99,7 @@ int modelManager::rotateModelVertex(QString sModelName, Eigen::Matrix3d rotation
     return 0;
 }
 
-int modelManager::rotateModelNormal(QString sModelName, Eigen::Matrix3d rotation)
+int ModelManager::rotateModelNormal(QString sModelName, Eigen::Matrix3d rotation)
 {
     if(mModelInfoMap.find(sModelName) == mModelInfoMap.end()){
         return -1;
@@ -109,17 +109,17 @@ int modelManager::rotateModelNormal(QString sModelName, Eigen::Matrix3d rotation
     return 0;
 }
 
-int modelManager::setModelActive(QString sModelName)
+int ModelManager::setModelActive(QString sModelName)
 {
     return setActiveOrDeAactive(sModelName, true);
 }
 
-// int modelManager::setSubModelActive(QString sSubModelName)
+// int ModelManager::setSubModelActive(QString sSubModelName)
 // {
 //     return 0;
 // }
 
-int modelManager::setActiveOrDeAactive(QString sModelName, bool bIsAcitve)
+int ModelManager::setActiveOrDeAactive(QString sModelName, bool bIsAcitve)
 {
     if(mModelInfoMap.find(sModelName) == mModelInfoMap.end()){
         return -1;
@@ -129,7 +129,7 @@ int modelManager::setActiveOrDeAactive(QString sModelName, bool bIsAcitve)
     return bIsAcitve ? modelPtr->turnActive() : modelPtr->turnDeActive();
 }
 
-int modelManager::setActiveOrDeAactive(QStringList sNameList, bool bIsAcitve)
+int ModelManager::setActiveOrDeAactive(QStringList sNameList, bool bIsAcitve)
 {
     auto iter = sNameList.begin();
     int nret;
@@ -143,7 +143,7 @@ int modelManager::setActiveOrDeAactive(QStringList sNameList, bool bIsAcitve)
     return 0;
 }
 
-int modelManager::addModel2Map(modelInfo &model, QString sModelName)
+int ModelManager::addModel2Map(modelInfo &model, QString sModelName)
 {
     if(mModelInfoMap.find(sModelName) == mModelInfoMap.end()){
         mModelInfoMap.insert(sModelName, model);
@@ -159,29 +159,29 @@ int modelManager::addModel2Map(modelInfo &model, QString sModelName)
     return setModelName(model, sModelName);
 }
 
-int modelManager::clearModel(QString sModelName)
+int ModelManager::clearModel(QString sModelName)
 {
     auto iter = mModelInfoMap.find(sModelName);
     if(iter == mModelInfoMap.end()){
-        emit logOutputSig(QString(
+        qDebug() << QString(
                     "There is no Model named %1!")
-                    .arg(sModelName));
+                    .arg(sModelName);
         return 0;
     }
     iter->clear();
     mModelInfoMap.erase(iter);
-    emit logOutputSig(QString(
+    qDebug() << QString(
                     "Model named %1 clear!")
-                    .arg(sModelName));
+                    .arg(sModelName);
     return 0;
 }
 
-// int modelManager::clearSubModel()
+// int ModelManager::clearSubModel()
 // {
 //     return 0;
 // }
 
-int modelManager::readFile(QString sFilePath, modelInfo &model)
+int ModelManager::readFile(QString sFilePath, modelInfo &model)
 {
     // 先得到后缀名，判断是config文件还是stl
     QString suffix = sFilePath.mid(sFilePath.indexOf('.'));
@@ -193,12 +193,12 @@ int modelManager::readFile(QString sFilePath, modelInfo &model)
     return 0;
 }
 
-int modelManager::readConfigFile(QString sFilePath, modelInfo &model)
+int ModelManager::readConfigFile(QString sFilePath, modelInfo &model)
 {
     return 0;
 }
 
-int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
+int ModelManager::readModelFromFile(QString sModelPath, modelInfo &model)
 {
     QString log;
     std::string filePath = sModelPath.toStdString();
@@ -207,7 +207,7 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
     if (!(filePath[length-4]=='.' && filePath[length-3]=='s' && filePath[length-2]=='t' && filePath[length-1]=='l'))
     {
         log += "the file inputed isn't stl file!";
-        emit logOutputSig(log);
+        qDebug() << log;
         return -1;
     }
     else
@@ -219,7 +219,7 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
         if (in.fail())
         {
             log += "file open failed!";
-            emit logOutputSig(log);
+            qDebug() << log;
             return -1;
         }
         char buffer_f[5]; // the buffer_f used to distinguish binary stl to ASCII stl
@@ -241,7 +241,7 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
                 else
                 {
                     log += "error: read nromal vector";
-                    emit logOutputSig(log);
+                    qDebug() << log;
                     return -1;
                 }
 
@@ -264,7 +264,7 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
                     else
                     {
                         log += "num of vertex less than 3, the rest vertexes of triangle is missing!";
-                        emit logOutputSig(log);
+                        qDebug() << log;
                         return -1;
                     }
                 }
@@ -282,7 +282,7 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
             if (in.fail())
             {
                 log += "binary stl file open failed!";
-                emit logOutputSig(log);
+                qDebug() << log;
                 return -1;
             }
             char head_c[80];
@@ -290,7 +290,7 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
             if (num != 80)
             {
                 log +="binary stl file error occurs: less than 80 bytes!";
-                emit logOutputSig(log);
+                qDebug() << log;
                 return -1;
             }
             float buffer_f;
@@ -358,11 +358,11 @@ int modelManager::readModelFromFile(QString sModelPath, modelInfo &model)
         model.eModelVertex = trans2Eigen(vertex);
         model.eModelNormal = trans2Eigen(normal);
     }
-    emit logOutputSig(log);
+    qDebug() << log;
     return 0;
 }
 
-Eigen::MatrixX3d modelManager::trans2Eigen(std::vector<Eigen::Matrix<double, 1, 3>> input)
+Eigen::MatrixX3d ModelManager::trans2Eigen(std::vector<Eigen::Matrix<double, 1, 3>> input)
 {
     int rows = input.size();
     Eigen::MatrixX3d temp(rows, 3);
@@ -374,7 +374,7 @@ Eigen::MatrixX3d modelManager::trans2Eigen(std::vector<Eigen::Matrix<double, 1, 
     return temp;
 }
 
-int modelManager::getModelInfoFromMap(QString sTargetName, modelInfo& model)
+int ModelManager::getModelInfoFromMap(QString sTargetName, modelInfo& model)
 {
     if (mModelInfoMap.find(sTargetName) == mModelInfoMap.end()){
         return -1;
@@ -383,7 +383,7 @@ int modelManager::getModelInfoFromMap(QString sTargetName, modelInfo& model)
     return 0;
 }
 
-int modelManager::isModelExist(QString sModelName)
+int ModelManager::isModelExist(QString sModelName)
 {
     if(mModelInfoMap.find(sModelName) == mModelInfoMap.end()){
         return -1;

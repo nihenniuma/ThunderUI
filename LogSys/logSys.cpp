@@ -2,12 +2,12 @@
 
 QString sDefaultLogPath = "";
 
-LogSys::LogSys() : pLogTextOutput(nullptr){}
+LogSys::LogSys() : m_pLogTextOutput(nullptr){}
 LogSys::~LogSys(){}
 
 int LogSys::initLogSys(QTextBrowser* logTextOutput)
 {
-    pLogTextOutput = logTextOutput;
+    m_pLogTextOutput = logTextOutput;
     return 0;
 }
 
@@ -22,16 +22,16 @@ int LogSys::saveLog(){
 
 int LogSys::clearLog()
 {
-    if(pLogTextOutput == nullptr) return -1;
-    pLogTextOutput->clear(); 
+    if(m_pLogTextOutput == nullptr) return -1;
+    m_pLogTextOutput->clear(); 
     return 0;
 }
 
 int LogSys::outputLog(QString msg){
-    if(pLogTextOutput == nullptr) return -1;
+    if(m_pLogTextOutput == nullptr) return -1;
     QString output = QDateTime::currentDateTime().toString("yyyy-mm-dd") + ' ' + \
                     QDateTime::currentDateTime().toString("HH:mm:ss") + ' ' + msg + '\n';
-    pLogTextOutput->insertPlainText(output);
+    m_pLogTextOutput->insertPlainText(output);
     return 0;
 }
 
