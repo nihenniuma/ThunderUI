@@ -4,6 +4,7 @@
 // #include "viewer.h"
 #include "ui_mainwindow.h"
 #include "ModelViewerControl/viewerControl.h"
+#include "CustomWidget/vtkCustomWidget.h" 
 #include "LogSys/logSys.h"
 #include "TreeWidget/treeWidgetManager.h"
 #include "MainWindow/mainwindow.h"

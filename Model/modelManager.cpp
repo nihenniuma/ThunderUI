@@ -30,7 +30,8 @@ int ModelManager::ClearModel() {
   return 0; 
 }
 
-int ModelManager::FindModelPtr(QString sModelName, Model* ptr) { 
+int ModelManager::FindModelPtr(QString sModelName, Model* ptr) {
+  std::cout << sModelName.toStdString() << std::endl;
   QMap<QString, Model*>::iterator iter = m_ModelPtrMap.find(sModelName);
   if(iter == m_ModelPtrMap.end()){
     qDebug() << __FUNCTION__ << QString(
@@ -111,6 +112,7 @@ void ModelManager::FindModelPtrAndActivateSlot(QString sModelName) {
                                 .arg(sModelName);
     return;
   }
+  iter.value()->CustomWidgetOn();
   emit CheckTreeItemSig(iter.value());
 }
 
@@ -122,5 +124,6 @@ void ModelManager::FindModelPtrAndDeactivateSlot(QString sModelName) {
                                 .arg(sModelName);
     return;
   }
+  iter.value()->CustomWidgetOff();
   emit UncheckTreeItemSig(iter.value());
 }

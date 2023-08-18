@@ -13,11 +13,15 @@
 #include <vtkOutlineFilter.h>
 #include <vtkAssembly.h>
 #include <vtkProperty.h>
+#include "vtkCustomWidget.h"
 
 class Model {
 public:
   Model(vtkSmartPointer<vtkPolyData> pVTKPolyData);
   ~Model();
+
+  void CustomWidgetOn();
+  void CustomWidgetOff();
 
   int generate();
   // get model data out
@@ -45,8 +49,11 @@ public:
   QTreeWidgetItem* m_pTreeWidgetItem = nullptr;
 
   vtkSmartPointer<vtkDataSetMapper> m_pMapper = nullptr;
-  vtkSmartPointer<vtkActor> m_pActor = nullptr;
+  // vtkSmartPointer<vtkActor> m_pActor = nullptr;
+  vtkActor* m_pActor = nullptr;
   vtkSmartPointer<vtkPolyData> m_pPolyData = nullptr;
+
+  vtkCustomWidget* m_pCustomWidget = nullptr;
   // vtkSmartPointer<vtkOutlineFilter> m_pOutlineFilter = nullptr;
   // vtkSmartPointer<vtkAssembly> m_pAssembly = nullptr;
   // vtkSmartPointer<vtkActor> m_pOutlineActor = nullptr;

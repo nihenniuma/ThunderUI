@@ -14,6 +14,16 @@ int ViewInteractorStyle::SetRenderer(vtkSmartPointer<vtkRenderer> pRenderer) {
   return 0;
 }
 
+int ViewInteractorStyle::SetCustomWidget(vtkCustomWidget* pCustomWidget){
+  m_pCustomWidget = pCustomWidget;
+  return 0;
+}
+
+// int ViewInteractorStyle::SetModelMgr(ModelManager* pModelMgr) {
+//   m_pModelMgr = pModelMgr;
+//   return 0; 
+// }
+
 void ViewInteractorStyle::OnLeftButtonDown() {
   auto currentTime = QDateTime::currentMSecsSinceEpoch();
   auto duration = currentTime - this->LastClickTime;
@@ -27,7 +37,6 @@ void ViewInteractorStyle::OnLeftButtonDown() {
         pLastActor->GetProperty()->SetColor(0.5, 0.5, 0.5);
         m_pBridge->CallDeactivateItemSig(pLastActor);
       }
-      // qDebug() << __FUNCTION__ << pActor->GetPropertyKeys()->Get(ViewerControl::pCustomKey);
       pLastActor = pActor;
       pActor->GetProperty()->SetColor(1, 1, 0);
       m_pBridge->CallActivateItemSig(pLastActor);

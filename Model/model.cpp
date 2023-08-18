@@ -7,7 +7,8 @@
 
 Model::Model(vtkSmartPointer<vtkPolyData> pVTKPolyData)
   : m_pPolyData(pVTKPolyData)
-  , m_pActor(vtkSmartPointer<vtkActor>::New())
+  // , m_pActor(vtkSmartPointer<vtkActor>::New())
+  , m_pActor(vtkActor::New())
   , m_pMapper(vtkSmartPointer<vtkDataSetMapper>::New())
   // , m_pAssembly(vtkSmartPointer<vtkAssembly>::New())
   // , m_pOutlineActor(vtkSmartPointer<vtkActor>::New())
@@ -15,11 +16,26 @@ Model::Model(vtkSmartPointer<vtkPolyData> pVTKPolyData)
 {
   m_pMapper->SetInputData(m_pPolyData);
   m_pActor->SetMapper(m_pMapper);
+  m_pCustomWidget = vtkCustomWidget::New();
+  m_pCustomWidget->SetTargetActor(&m_pActor);
+  m_pCustomWidget->Off(); // default not show
 }
 
 Model::~Model(){
   if(m_pTreeWidgetItem != nullptr){
     delete m_pTreeWidgetItem;
+  }
+}
+
+void Model::CustomWidgetOn() {
+  if(m_pCustomWidget != nullptr){
+    m_pCustomWidget->On();
+  }
+}
+
+void Model::CustomWidgetOff() {
+  if(m_pCustomWidget != nullptr){
+    m_pCustomWidget->Off();
   }
 }
 

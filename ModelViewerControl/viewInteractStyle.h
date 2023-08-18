@@ -3,6 +3,7 @@
 
 #include "viewerControl.h"
 #include "bridge.h"
+#include "CustomWidget/vtkCustomWidget.h"
 
 #include <QDateTime>
 #include <QDebug>
@@ -31,6 +32,8 @@ public:
   ~ViewInteractorStyle(){};
 
   int SetRenderer(vtkSmartPointer<vtkRenderer> pRenderer);
+  int SetCustomWidget(vtkCustomWidget* pCustomWidget);
+  // int SetModelMgr(ModelManager* pModelMgr);
 
   virtual void OnLeftButtonDown();
   void SetBridge(Bridge* pBridge);
@@ -46,11 +49,14 @@ private:
   vtkSmartPointer<vtkOutlineFilter> m_pOutline = nullptr;
   vtkSmartPointer<vtkRenderWindowInteractor> m_pInteractor = nullptr;
   vtkSmartPointer<vtkPropPicker> m_pPicker = nullptr;
+  vtkCustomWidget* m_pCustomWidget = nullptr;
 
   vtkActor* pLastActor = nullptr;
   bool bLeftBtnPressed = false;
   qint64 LastClickTime;
   Bridge* m_pBridge = nullptr;
+  // ModelManager* m_pModelMgr = nullptr;
+  // Model* preModel = nullptr;
 };
 
 #endif

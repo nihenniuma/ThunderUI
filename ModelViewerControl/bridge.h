@@ -25,7 +25,7 @@ signals:
   void ChangeItemSig(Model* pModel);
   void FindModelPtrAndActivateSig(QString sModelName);
   void FindModelPtrAndDeactivateSig(QString sModelName);
-
+  
 public slots:
 
 

@@ -46,7 +46,7 @@
 #include "Model/modelManager.h"
 #include "viewInteractStyle.h"
 #include "bridge.h"
-#include "vtkCustomWidget.h"
+#include "CustomWidget/vtkCustomWidget.h"
 
 class Bridge;
 class ViewInteractorStyle;
@@ -92,11 +92,19 @@ private:
   vtkSmartPointer<vtkOrientationMarkerWidget> m_pWidget = nullptr;
   vtkSmartPointer<vtkBoxWidget> m_pBoxWidget = nullptr;
 
+  vtkCustomWidget* m_pCustomWidget = nullptr;
+
   vtkRenderWindow* m_pRenderWindow = nullptr;
   vtkRenderWindowInteractor* m_pRenderWindowInteractor = nullptr;
   ViewInteractorStyle* m_pViewInteractorStyle = nullptr;
-  vtkCustomWidget* m_pCustomWidget = nullptr;
+  // vtkCustomWidget* m_pCustomWidget = nullptr;
   vtkInteractorStyleTrackballCamera* m_pInteractorStyleTrackballCamera = nullptr;
+
+  // test
+  // vtkSphereSource* m_pSphere = nullptr;
+  // vtkActor* m_pSphereActor = nullptr;
+  // vtkPolyDataMapper* m_pSphereMapper = nullptr;
+  // // test
 
   QColor m_color;
   QVector<Model*> m_vShowModel;

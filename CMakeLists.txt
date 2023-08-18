@@ -38,6 +38,7 @@ include_directories(
         MainWindow
         ModelViewerControl
         Model
+        CustomWidget
 )
 
 set(PROJECT_SOURCES
@@ -51,6 +52,8 @@ set(PROJECT_SOURCES
         TreeWidget/treeWidgetManager.cpp
         Model/model.cpp
         Model/modelManager.cpp
+        CustomWidget/vtkCustomWidget.cpp
+        CustomWidget/vtkCustomRepresentation.cpp
         icons.qrc
 )
 include_directories("~/Qt5.12.12/5.12.12/gcc_64/")

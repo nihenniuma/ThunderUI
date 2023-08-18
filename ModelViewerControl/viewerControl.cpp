@@ -18,14 +18,18 @@ ViewerControl::ViewerControl(QWidget* parent, ModelManager* pModelMgr, Bridge* p
   , m_pBridge(new Bridge())
   // , m_pInteractorStyleTrackballCamera(vtkInteractorStyleTrackballCamera::New())
   // , m_pAxesActor(vtkSmartPointer<vtkAxesActor>::New())
+  , m_pCustomWidget(vtkCustomWidget::New())
 {
   m_pRenderWindow->AddRenderer(m_pRenderer);
   m_pRenderWindowInteractor->SetRenderWindow(m_pRenderWindow);
   m_pViewInteractorStyle->SetRenderer(m_pRenderer);
-
+  m_pViewInteractorStyle->SetCustomWidget(m_pCustomWidget);
+  // m_pViewInteractorStyle->SetModelMgr(m_pModelMgr);
   m_pViewInteractorStyle->SetBridge(m_pBridge);
   // m_pRenderWindowInteractor->SetInteractorStyle(m_pInteractorStyleTrackballCamera);
-  // m_pRenderWindowInteractor->SetInteractorStyle(m_pViewInteractorStyle);
+
+  // 拾取开启
+  m_pRenderWindowInteractor->SetInteractorStyle(m_pViewInteractorStyle);
 
   m_pProperty->SetEdgeColor(0, 0, 0);
 	m_pProperty->SetEdgeVisibility(0);
@@ -73,8 +77,21 @@ int ViewerControl::InitViewer(ModelManager* pModelMgr) {
   qDebug() << QString("Camera Position: %1, %2, %3").arg(p[0]).arg(p[1]).arg(p[2]);
 	// camera->SetParallelProjection(1);
 
-  InitGridRaft();
+  // m_pCustomWidget->SetInteractor(m_pRenderWindowInteractor);
+
+  // InitGridRaft();
   InitCoords();
+
+  // test
+  // m_pSphere = vtkSphereSource::New();
+  // m_pSphere->SetRadius(10);
+  // m_pSphereMapper = vtkPolyDataMapper::New();
+  // m_pSphereActor = vtkActor::New();
+
+  // m_pSphereMapper->SetInputConnection(m_pSphere->GetOutputPort());
+  // m_pSphereActor->SetMapper(m_pSphereMapper);
+  // m_pRenderer->AddActor(m_pSphereActor);
+
   return 0;
 }
 
@@ -100,10 +117,10 @@ int ViewerControl::InitGridRaft() {
   pActor->SetPosition(-coord[0], -coord[1], -coord[2]);
   // pActor->PickableOff();
 
-  m_pBoxWidget = vtkSmartPointer<vtkBoxWidget>::New();
-  m_pBoxWidget->SetInteractor(m_pRenderWindowInteractor);
-  m_pBoxWidget->SetProp3D(pActor);
-  m_pBoxWidget->On();
+  // m_pBoxWidget = vtkSmartPointer<vtkBoxWidget>::New();
+  // m_pBoxWidget->SetInteractor(m_pRenderWindowInteractor);
+  // m_pBoxWidget->SetProp3D(pActor);
+  // m_pBoxWidget->On();
   
   /*----------------------test-------------------------------*/
   // vtkSmartPointer<vtkRegularPolygonSource> circle = vtkSmartPointer<vtkRegularPolygonSource>::New();
@@ -240,16 +257,10 @@ void ViewerControl::ShowSlot(Model* pModel) {
     return;
   }
 
-  m_pBoxWidget->SetProp3D(pActor);
-  m_pBoxWidget->On();
+  pModel->m_pCustomWidget->SetInteractor(m_pRenderWindowInteractor);
 
-  // double* coord = pActor->GetCenter();
-  double* bounds = pActor->GetBounds();
-  pos[0] = pos[0] - bounds[0];
-  pos[1] = pos[1] - bounds[2];
-  pos[2] = pos[2] - bounds[4];
-  pActor->AddPosition(pos[0], pos[1], pos[2]);
-  // pActor->AddPosition(-bounds[0], -bounds[2], -bounds[4]);
+  vtkNew<vtkMatrix4x4> Initial;
+  pActor->SetUserMatrix(Initial);
 
   // set information -Model Name
   pActor->SetPropertyKeys(vtkSmartPointer<vtkInformation>::New());
